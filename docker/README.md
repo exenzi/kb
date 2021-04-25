@@ -158,4 +158,63 @@ docker image prune
 
 # Удалить контейнер, когда он закончит работу
 docker --rm run контейнер
+
+# Вывести всю информацию об образе
+docker image inspect образ
+```
+
+## Наименование образов и контейнеров
+Назвать контейнер myapp
+```
+docker run --name myapp ...
+```
+```
+❯ docker run -d -p 5000:80 --name myapp 1609a7b5123735f1f91d7e90830302d7167ed04bf039d788f166b80f4086369a
+55f2dc5921aa93690df7f9b233d02c55dcd634d989921eeba7f8c7c1a8a810eb
+
+❯ docker ps
+CONTAINER ID   IMAGE          ...   NAMES
+55f2dc5921aa   1609a7b51237   ...   myapp
+
+❯ docker stop myapp
+myapp
+```
+
+Образы именуются именуются тэгами
+```
+name:tag
+
+python:3.9.4
+node:latest
+```
+Задать имя и тэг:
+```
+docker build -t myapp:whatever
+```
+```
+❯ docker build -t myapp:whatever .
+[+] Building 0.2s (10/10) FINISHED
+...
+ => => naming to docker.io/library/myapp:whatever
+
+❯ docker images
+REPOSITORY   TAG        IMAGE ID       CREATED        SIZE
+myapp        whatever   1609a7b51237   11 hours ago   895MB
+...
+python       latest     49e3c70d884f   2 weeks ago    885MB
+
+❯ docker run -d --name appcont myapp:whatever
+2d2b3dcc928ddab059e50af4ba95a230df3d37f3e44bdeb8f19fb8ecf3df599a
+
+❯ docker ps
+CONTAINER ID   IMAGE            COMMAND            CREATED          STATUS          PORTS     NAMES
+2d2b3dcc928d   myapp:whatever   "python main.py"   2 seconds ago    Up 1 second     80/tcp    appcont
+```
+
+## Копирование файлов
+
+```
+# Скопировать в/из контейнера
+docker cp файл_или_папка контейнер:куда_копировать
+docker cp контейнер:куда_копировать файл_или_папка
 ```

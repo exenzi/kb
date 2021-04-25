@@ -156,6 +156,9 @@ docker rmi образ [образ образ...]
 # Удалить неиспользуемые образы
 docker image prune
 
+# Удалить все образы
+docker image prune -a
+
 # Удалить контейнер, когда он закончит работу
 docker --rm run контейнер
 
@@ -190,6 +193,9 @@ node:latest
 Задать имя и тэг:
 ```
 docker build -t myapp:whatever
+
+# Скопировать образ с новым именем
+docker tag прошлый_образ новый_образ
 ```
 ```
 ❯ docker build -t myapp:whatever .
@@ -217,4 +223,17 @@ CONTAINER ID   IMAGE            COMMAND            CREATED          STATUS      
 # Скопировать в/из контейнера
 docker cp файл_или_папка контейнер:куда_копировать
 docker cp контейнер:куда_копировать файл_или_папка
+``` 
+
+## Docker Hub
+
+```
+# Войти
+docker login
+
+# Выйти
+docker logout
+
+# Залить образ в хаб
+docker push имя/репозиторий[:тэг]
 ```

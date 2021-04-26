@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+    example_1:
+        image: 'mongo'
+        volumes:
+            - data:/data/db
+        # enviroment:
+        #     DB_USERNAME: root
+        #     DB_PASSWORD: secret
+        # enviroment:
+        #     - DB_USERNAME=root
+        #     - DB_PASSWORD=secret
+        env_file:
+            - ./env/mongo.env
+            # - путь/ко/второму/файлу/env
+        networks:
+            # - my-network
+            # - my-network-2
+    example_2:
+        # ...
+volumes:
+    data:

@@ -26,9 +26,10 @@
 * Firebase
 * AWS
 * Javascript
+* Typescript
 * Vue.js
 * Vim
 
 ## В мечтах:
 * Rust
-* Flutter
+* Dart, Flutter

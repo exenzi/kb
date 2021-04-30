@@ -326,3 +326,43 @@ rewrite /greet/john /thumb.png;
 # /user/john -> /greet/john
 ```
 
+## Директива `try_files`
+Пытается отдать файл, указанный первым. Если его не существует, то указанный втором. И т.д. Последний аргумент работает, как rewrite. Может использоваться в контексте `server` и `location`. Имеет преимущество над `location`.
+
+```nginx
+try_files file1 file2 final;
+```
+
+Часто используется с переменными, например, так можно сделать страницу с ошибкой 404:
+```nginx
+server {
+    try_files $uri /cat.png /greet /friendly_404;
+
+    location /friendly_404 {
+        return 404 "Извините, такой файл не найдён.";
+    }
+
+    location /greet {
+        return 200 "Hello User"'
+    }
+}
+```
+В данном примере, если запросим, например, `/nothing`, то `/greet` не сработает из-за того, что `try_files` ищет файлы только относительно `root`. Только последний аргумент срабатывает, как `rewrite`.
+
+## Именованые локации
+
+Локацию можно назвать, используя `@`. В `try_files` последним аргументом можно сразу вызвать именованную локацию, не затрачивая время на rewrite.
+
+```nginx
+server {
+    try_files $uri /cat.png /greet @friendly_404;
+
+    location @friendly_404 {
+        return 404 "Извините, такой файл не найдён.";
+    }
+
+    location /greet {
+        return 200 "Hello User"'
+    }
+}
+```
